@@ -1,0 +1,5 @@
+Revision history for Perl extension Crypt::Twofish2
+
+0.01  Fri Apr  7 11:24:43 CEST 2000
+	- original version; leftover "garbage" from the PApp module
+
