@@ -1,5 +1,8 @@
 Revision history for Perl extension Crypt::Twofish2
 
+0.03  Tue Aug  1 22:05:05 CEST 2000
+	- added SvPV_nolen emulation for stoneage perls (5.5 and below).
+
 0.02  Sun Apr  9 02:54:32 CEST 2000
 	- use BYTEORDER form perl.h
         - improved testsuite
