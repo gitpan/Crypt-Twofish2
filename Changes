@@ -1,5 +1,19 @@
 Revision history for Perl extension Crypt::Twofish2
 
+0.06  Fri Feb 23 02:12:22 CET 2001
+	- fix TWO MAJOR BUGS. First, keys with a leading zero byte
+          caused no encryption at all. Second, the keys were byte-swapped
+          on BIG-ENDIAN machines (or rather, not swapped at all).
+
+          Both of these bugs were corrected. If you have old keys on
+          big-endian machine you can get the old behaviour by applying the
+          following regex to your key:
+
+          $key =~ s/(.)(.)(.)(.)/$4$3$2$1/gs;
+          
+        - added more test vectors that should also catcg endianness-issues.
+        - minor portability fixes.
+
 0.05  Mon Feb 19 09:08:12 CET 2001
 	- workaround for the 5.004 pod anomaly.
         - renamed twofish2.c to twofish.c to avoid name clash on the

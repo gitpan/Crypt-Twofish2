@@ -85,7 +85,7 @@ encrypt(self, data)
               SvCUR_set (RETVAL, size);
 
               if ((ix ? blockDecrypt : blockEncrypt)
-                    (&self->ci, &self->ki, rawbytes, size << 3, SvPV_nolen(RETVAL)) < 0)
+                    (&self->ci, &self->ki, rawbytes, size << 3, (void *)SvPV_nolen(RETVAL)) < 0)
                 croak ("block(De|En)crypt: unknown error, please report");
             }
           else

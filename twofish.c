@@ -189,73 +189,6 @@ int TableOp(int op)
     }
 
 
-/*
-+*****************************************************************************
-*
-* Function Name:    ParseHexDword
-*
-* Function:         Parse ASCII hex nibbles and fill in key/iv dwords
-*
-* Arguments:        bit         =   # bits to read
-*                   srcTxt      =   ASCII source
-*                   d           =   ptr to dwords to fill in
-*                   dstTxt      =   where to make a copy of ASCII source
-*                                   (NULL ok)
-*
-* Return:           Zero if no error.  Nonzero --> invalid hex or length
-*
-* Notes:  Note that the parameter d is a DWORD array, not a byte array.
-*   This routine is coded to work both for little-endian and big-endian
-*   architectures.  The character stream is interpreted as a LITTLE-ENDIAN
-*   byte stream, since that is how the Pentium works, but the conversion
-*   happens automatically below. 
-*
--****************************************************************************/
-int ParseHexDword(int bits,CONST char *srcTxt,DWORD *d,char *dstTxt)
-    {
-    int i;
-    char c;
-    DWORD b;
-
-    union   /* make sure LittleEndian is defined correctly */
-        {
-        BYTE  b[4];
-        DWORD d[1];
-        } v;
-    v.d[0]=1;
-    if (v.b[0 ^ ADDR_XOR] != 1)
-        return BAD_ENDIAN;      /* make sure compile-time switch is set ok */
-
-#if VALIDATE_PARMS
-  #if ALIGN32
-    if (((int)d) & 3)
-        return BAD_ALIGN32; 
-  #endif
-#endif
-
-    for (i=0;i*32<bits;i++)
-        d[i]=0;                 /* first, zero the field */
-
-    for (i=0;i*4<bits;i++)      /* parse one nibble at a time */
-        {                       /* case out the hexadecimal characters */
-        c=srcTxt[i];
-        if (dstTxt) dstTxt[i]=c;
-        if ((c >= '0') && (c <= '9'))
-            b=c-'0';
-        else if ((c >= 'a') && (c <= 'f'))
-            b=c-'a'+10;
-        else if ((c >= 'A') && (c <= 'F'))
-            b=c-'A'+10;
-        else
-            return BAD_KEY_MAT; /* invalid hex character */
-        /* works for big and little endian! */
-        d[i/8] |= b << (4*((i^1)&7));       
-        }
-
-    return 0;                   /* no error */
-    }
-
-
 #if CHECK_TABLE
 /*
 +*****************************************************************************
@@ -733,6 +666,8 @@ else
 -****************************************************************************/
 int makeKey(keyInstance *key, BYTE direction, int keyLen,CONST char *keyMaterial)
     {
+    int i;
+
 #if VALIDATE_PARMS              /* first, sanity check on parameters */
     if (key == NULL)            
         return BAD_KEY_INSTANCE;/* must have a keyInstance to initialize */
@@ -752,10 +687,14 @@ int makeKey(keyInstance *key, BYTE direction, int keyLen,CONST char *keyMaterial
     key->numRounds  = numRounds[(keyLen-1)/64];
     memset(key->key32,0,sizeof(key->key32));    /* zero unused bits */
 
-    if ((keyMaterial == NULL) || (keyMaterial[0]==0))
+    if (keyMaterial == NULL)
         return TRUE;            /* allow a "dummy" call */
         
-    memcpy (key->key32, keyMaterial, keyLen >>  3);
+    for (i=0;i<keyLen/32;i++)   /* make byte-oriented copy for CFB1 */
+        key->key32[i] = (((unsigned char *)keyMaterial)[i*4+0] <<  0)
+                      | (((unsigned char *)keyMaterial)[i*4+1] <<  8)
+                      | (((unsigned char *)keyMaterial)[i*4+2] << 16)
+                      | (((unsigned char *)keyMaterial)[i*4+3] << 24);
 
     return reKey(key);          /* generate round subkeys */
     }
@@ -793,10 +732,9 @@ int cipherInit(cipherInstance *cipher, BYTE mode,CONST char *IV)
 
     if ((mode != MODE_ECB) && (IV)) /* parse the IV */
         {
-        if (ParseHexDword(BLOCK_SIZE,IV,cipher->iv32,NULL))
-            return BAD_IV_MAT;
-        for (i=0;i<BLOCK_SIZE/32;i++)   /* make byte-oriented copy for CFB1 */
-            ((DWORD *)cipher->IV)[i] = Bswap(cipher->iv32[i]);
+            memcpy (cipher->iv32, IV, BLOCK_SIZE/32);
+            for (i=0;i<BLOCK_SIZE/32;i++)   /* make byte-oriented copy for CFB1 */
+                ((DWORD *)cipher->IV)[i] = Bswap(cipher->iv32[i]);
         }
 
     cipher->mode        =   mode;
