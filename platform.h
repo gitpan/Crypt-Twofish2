@@ -61,7 +61,7 @@ typedef U32 DWORD;
 #endif
 
 /* BYTEORDER comes from perl's config.h */
-#if BYTEORDER == 0x1234
+#if BYTEORDER == 0x1234 || BYTEORDER == 0x12345678 || defined(__LITTLE_ENDIAN__) 
 #define		LittleEndian			1
 #define		Bswap(x)			(x)		/* NOP for little-endian machines */
 #define		ADDR_XOR			0		/* NOP for little-endian machines */

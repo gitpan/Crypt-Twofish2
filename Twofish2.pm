@@ -32,10 +32,12 @@ package Crypt::Twofish2;
 
 require DynaLoader;
 
-$VERSION = 0.03;
+$VERSION = 0.04;
 @ISA = qw/DynaLoader/;
 
 bootstrap Crypt::Twofish2 $VERSION;
+
+1;
 
 =item keysize
 

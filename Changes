@@ -1,5 +1,11 @@
 Revision history for Perl extension Crypt::Twofish2
 
+0.04  Tue Jan 16 13:59:00 CET 2001
+	- better test for little endian (should work on alpha now).
+        - more(?) 5.004 compatibility (5.004 is still unsupported). I
+          wished people wouldn't insist on using ANTIQUE versions of their
+          software with my module.
+
 0.03  Tue Aug  1 22:05:05 CEST 2000
 	- added SvPV_nolen emulation for stoneage perls (5.5 and below).
 
