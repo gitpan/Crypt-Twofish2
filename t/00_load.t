@@ -10,12 +10,15 @@ $key = "k"  x 32;
 $ecb = new Crypt::Twofish2 $key;
 
 $crypted = $ecb->encrypt($plaintext);
-print substr($crypted,0,16) eq substr($crypted,16,16) ? "" : "not ", "ok 2\n";
+print unpack("H*", $crypted) eq "0d00ae47d1792af16f213c804ad21bdf0d00ae47d1792af16f213c804ad21bdf"
+      ? "" : "not ", "ok 2\n";
 print $ecb->decrypt($crypted) eq $plaintext ? "" : "not ", "ok 3\n";
 
-$cbc = new Crypt::Twofish2 $key;
+$cbc = new Crypt::Twofish2 $key, Crypt::Twofish2::MODE_CBC;
 $crypted = $cbc->encrypt($plaintext);
-print substr($crypted,0,16) eq substr($crypted,16,16) ? "" : "not ", "ok 4\n";
+print unpack("H*", $crypted) eq "0d00ae47d1792af16f213c804ad21bdfe4293dd580b21a09fab94fc0d9485ba3"
+      ? "" : "not ", "ok 4\n";
+$cbc = new Crypt::Twofish2 $key, Crypt::Twofish2::MODE_CBC;
 print $cbc->decrypt($crypted) eq $plaintext ? "" : "not ", "ok 5\n";
 
 

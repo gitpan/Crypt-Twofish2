@@ -32,7 +32,7 @@ package Crypt::Twofish2;
 
 require DynaLoader;
 
-$VERSION = 0.01;
+$VERSION = 0.02;
 @ISA = qw/DynaLoader/;
 
 bootstrap Crypt::Twofish2 $VERSION;

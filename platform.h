@@ -21,8 +21,6 @@
 
 ***************************************************************************/
 
-#include <endian.h>
-
 typedef unsigned char BYTE;
 typedef U32 DWORD;
 
@@ -62,7 +60,8 @@ typedef U32 DWORD;
 #define		ALIGN32				1		/* (assume need alignment for non-Intel) */
 #endif
 
-#if __BYTE_ORDER == __LITTLE_ENDIAN
+/* BYTEORDER comes from perl's config.h */
+#if BYTEORDER == 0x1234
 #define		LittleEndian			1
 #define		Bswap(x)			(x)		/* NOP for little-endian machines */
 #define		ADDR_XOR			0		/* NOP for little-endian machines */
