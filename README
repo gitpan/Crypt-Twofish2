@@ -14,12 +14,12 @@ SYNOPSIS
      $plaintext = $cipher->decrypt($crypted);
 
 DESCRIPTION
-    This module implements thw twofish cipher in a less braindamaged (read:
+    This module implements the twofish cipher in a less braindamaged (read:
     slow and ugly) way than the existing "Crypt::Twofish" module.
 
     Although it is "Crypt::CBC" compliant you usually gain nothing by using
-    that module (except generality), since "Crypt::Twofish2" can work in
-    either ECB or CBC mode.
+    that module (except generality, which is often a good thing), since
+    "Crypt::Twofish2" can work in either ECB or CBC mode itself.
 
     keysize
         Returns the keysize, which is 32 (bytes). The Twofish2 cipher
@@ -32,7 +32,7 @@ DESCRIPTION
 
     $cipher = new $key [, $mode]
         Create a new "Crypt::Twofish2" cipher object with the given key
-        (which must be 128, 192 or 256 bits long). The additional "$mode"
+        (which must be 128, 192 or 256 bits long). The additional $mode
         argument is the encryption mode, either "MODE_ECB" (electronic
         cookbook mode, the default), "MODE_CBC" (cipher block chaining, the
         same that "Crypt::CBC" does) or "MODE_CFB1" (1-bit cipher feedback
@@ -55,7 +55,7 @@ DESCRIPTION
         specify them as "Crypt::Twofish2::MODE_CBC" etc. (sorry for that).
 
     $cipher->encrypt($data)
-        Encrypt data. The size of "$data" must be a multiple of "blocksize"
+        Encrypt data. The size of $data must be a multiple of "blocksize"
         (16 bytes), otherwise this function will croak. Apart from that, it
         can be of (almost) any length.
 
@@ -63,12 +63,10 @@ DESCRIPTION
         The pendant to "encrypt" in that it *de*crypts data again.
 
 SEE ALSO
-    the Crypt::CBC manpage, the Crypt::Twofish manpage.
+    Crypt::CBC, Crypt::Twofish.
 
 BUGS
     Should EXPORT or EXPORT_OK the MODE constants.
-
-    The testsuite does not check wether the encrypted valued are correct.
 
     There should be a way to access initial IV contents :(
 
@@ -78,10 +76,13 @@ BUGS
     Counterpane Systems, no license accompanied it, so using it might
     actually be illegal ;)
 
+    I also cannot guarantee for security, but the module is used quite a
+    bit, so there are no obvious bugs left.
+
 AUTHOR
      Marc Lehmann <pcg@goof.com>
      http://www.goof.com/pcg/marc/
 
-     The actualy twofish encryption is written in horribly microsoft'ish looking
+     The actual twofish encryption is written in horribly microsoft'ish looking
      almost ansi-c by Doug Whiting.
 

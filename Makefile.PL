@@ -1,5 +1,7 @@
 use ExtUtils::MakeMaker;
 
+require 5.005;
+
 WriteMakefile(
     dist	=> {
 	            PREOP	=> 'pod2text Twofish2.pm | tee README >$(DISTVNAME)/README; chmod -R u=rwX,go=rX . ;',

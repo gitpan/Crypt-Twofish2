@@ -1,5 +1,10 @@
 Revision history for Perl extension Crypt::Twofish2
 
+1.0  Wed Jul 14 17:55:13 CEST 2004
+	- minor spelling mistakes.
+        - pad result with trailing (hidden) zero-byte to please regex code
+          (problem reported by Andreas König).
+
 0.06  Fri Feb 23 02:12:22 CET 2001
 	- fix TWO MAJOR BUGS. First, keys with a leading zero byte
           caused no encryption at all. Second, the keys were byte-swapped

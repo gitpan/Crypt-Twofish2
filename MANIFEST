@@ -11,3 +11,4 @@ table.h			Twofish cipher
 twofish.c		Twofish cipher
 typemap
 t/00_load.t
+META.yml                                 Module meta-data (added by MakeMaker)

@@ -17,12 +17,12 @@ Crypt::Twofish2 - Crypt::CBC compliant Twofish encryption module
 
 =head1 DESCRIPTION
 
-This module implements thw twofish cipher in a less braindamaged (read:
+This module implements the twofish cipher in a less braindamaged (read:
 slow and ugly) way than the existing C<Crypt::Twofish> module.
 
 Although it is C<Crypt::CBC> compliant you usually gain nothing by using
-that module (except generality), since C<Crypt::Twofish2> can work in
-either ECB or CBC mode.
+that module (except generality, which is often a good thing), since
+C<Crypt::Twofish2> can work in either ECB or CBC mode itself.
 
 =over 4
 
@@ -32,7 +32,7 @@ package Crypt::Twofish2;
 
 require DynaLoader;
 
-$VERSION = 0.06;
+$VERSION = '1.0';
 @ISA = qw/DynaLoader/;
 
 bootstrap Crypt::Twofish2 $VERSION;
@@ -92,8 +92,6 @@ L<Crypt::CBC>, L<Crypt::Twofish>.
 
 Should EXPORT or EXPORT_OK the MODE constants.
 
-The testsuite does not check wether the encrypted valued are correct.
-
 There should be a way to access initial IV contents :(
 
 Although I tried to make the original twofish code portable, I can't say
@@ -102,12 +100,15 @@ I got the endianness issues right. The code is also copyright Counterpane
 Systems, no license accompanied it, so using it might actually be illegal
 ;)
 
+I also cannot guarantee for security, but the module is used quite a bit,
+so there are no obvious bugs left.
+
 =head1 AUTHOR
 
  Marc Lehmann <pcg@goof.com>
  http://www.goof.com/pcg/marc/
 
- The actualy twofish encryption is written in horribly microsoft'ish looking
+ The actual twofish encryption is written in horribly microsoft'ish looking
  almost ansi-c by Doug Whiting.
 
 =cut

@@ -25,7 +25,7 @@ PROTOTYPES: ENABLE
 
 BOOT:
 {
-	HV * stash = gv_stashpv ("Crypt::Twofish2", 0);
+	HV *stash = gv_stashpv ("Crypt::Twofish2", 0);
 
 	newCONSTSUB (stash, "keysize",   newSViv (32));
 	newCONSTSUB (stash, "blocksize", newSViv (16));
@@ -82,6 +82,7 @@ encrypt(self, data)
 
               RETVAL = NEWSV (0, size);
               SvPOK_only (RETVAL);
+              (SvPVX (RETVAL))[size] = 0;
               SvCUR_set (RETVAL, size);
 
               if ((ix ? blockDecrypt : blockEncrypt)
