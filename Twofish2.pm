@@ -32,7 +32,7 @@ package Crypt::Twofish2;
 
 require DynaLoader;
 
-$VERSION = '1.0';
+$VERSION = '1.01';
 @ISA = qw/DynaLoader/;
 
 bootstrap Crypt::Twofish2 $VERSION;
@@ -105,8 +105,8 @@ so there are no obvious bugs left.
 
 =head1 AUTHOR
 
- Marc Lehmann <pcg@goof.com>
- http://www.goof.com/pcg/marc/
+ Marc Lehmann <schmorp@schmorp.de>
+ http://home.schmorp.de/
 
  The actual twofish encryption is written in horribly microsoft'ish looking
  almost ansi-c by Doug Whiting.

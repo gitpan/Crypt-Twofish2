@@ -80,8 +80,8 @@ BUGS
     bit, so there are no obvious bugs left.
 
 AUTHOR
-     Marc Lehmann <pcg@goof.com>
-     http://www.goof.com/pcg/marc/
+     Marc Lehmann <schmorp@schmorp.de>
+     http://home.schmorp.de/
 
      The actual twofish encryption is written in horribly microsoft'ish looking
      almost ansi-c by Doug Whiting.
