@@ -32,12 +32,10 @@ package Crypt::Twofish2;
 
 require DynaLoader;
 
-$VERSION = 0.04;
+$VERSION = 0.05;
 @ISA = qw/DynaLoader/;
 
 bootstrap Crypt::Twofish2 $VERSION;
-
-1;
 
 =item keysize
 
@@ -112,5 +110,7 @@ Systems, no license accompanied it, so using it might actually be illegal
  The actualy twofish encryption is written in horribly microsoft'ish looking
  almost ansi-c by Doug Whiting.
 
+=cut
 
+1;
 

@@ -12,7 +12,7 @@ static STRLEN nolen_na;
 #endif
 
 #include "aes.h"
-#include "twofish2.c"
+#include "twofish.c"
 
 typedef struct cryptstate {
   keyInstance ki;

@@ -8,6 +8,6 @@ Twofish2.xs
 aes.h			Twofish cipher
 platform.h		Twofish cipher
 table.h			Twofish cipher
-twofish2.c		Twofish cipher
+twofish.c		Twofish cipher
 typemap
 t/00_load.t
