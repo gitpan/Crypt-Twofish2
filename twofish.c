@@ -54,18 +54,18 @@ extern DWORD        cdecl TwofishAsmCodeSize(void);
 
 #define     CONST                   /* help syntax from C++, NOP here */
 
-CONST       fullSbox MDStab;        /* not actually const.  Initialized ONE time */
-int         needToBuildMDS=1;       /* is MDStab initialized yet? */
+static CONST       fullSbox MDStab;        /* not actually const.  Initialized ONE time */
+static int         needToBuildMDS=1;       /* is MDStab initialized yet? */
 
 #define     BIG_TAB     0
 
 #if BIG_TAB
-BYTE        bigTab[4][256][256];    /* pre-computed S-box */
+static BYTE        bigTab[4][256][256];    /* pre-computed S-box */
 #endif
 
 /* number of rounds for various key sizes:  128, 192, 256 */
 /* (ignored for now in optimized code!) */
-CONST int   numRounds[4]= {0,ROUNDS_128,ROUNDS_192,ROUNDS_256};
+static CONST int   numRounds[4]= {0,ROUNDS_128,ROUNDS_192,ROUNDS_256};
 
 #if REENTRANT
 #define     _sBox_   key->sBox8x32
@@ -146,8 +146,8 @@ static      fullSbox _sBox_;        /* permuted MDStab based on keys */
 /* end of debug macros */
 
 #ifdef GetCodeSize
-extern DWORD Here(DWORD x);         /* return caller's address! */
-DWORD TwofishCodeStart(void) { return Here(0); }
+static extern DWORD Here(DWORD x);         /* return caller's address! */
+static DWORD TwofishCodeStart(void) { return Here(0); }
 #endif
 
 /*
@@ -167,7 +167,7 @@ DWORD TwofishCodeStart(void) { return Here(0); }
 *        run for a fixed number of queries and then say we're done.
 *
 -****************************************************************************/
-int TableOp(int op)
+static int TableOp(int op)
     {
     static int queryCnt=0;
 
@@ -219,7 +219,7 @@ int TableOp(int op)
 *   macro Mij(x).
 *
 -****************************************************************************/
-DWORD f32(DWORD x,CONST DWORD *k32,int keyLen)
+static DWORD f32(DWORD x,CONST DWORD *k32,int keyLen)
     {
     BYTE  b[4];
     
@@ -277,7 +277,7 @@ DWORD f32(DWORD x,CONST DWORD *k32,int keyLen)
 *   without lookup tables.
 *
 -****************************************************************************/
-DWORD RS_MDS_Encode(DWORD k0,DWORD k1)
+static DWORD RS_MDS_Encode(DWORD k0,DWORD k1)
     {
     int i,j;
     DWORD r;
@@ -308,7 +308,7 @@ DWORD RS_MDS_Encode(DWORD k0,DWORD k1)
 *   one time at initialization, after which the table is "CONST".
 *
 -****************************************************************************/
-void BuildMDS(void)
+static void BuildMDS(void)
     {
     int i;
     DWORD d;
@@ -392,7 +392,7 @@ void BuildMDS(void)
 *   Note that key->numRounds must be even and >= 2 here.
 *
 -****************************************************************************/
-void ReverseRoundSubkeys(keyInstance *key,BYTE newDir)
+static void ReverseRoundSubkeys(keyInstance *key,BYTE newDir)
     {
     DWORD t0,t1;
     register DWORD *r0=key->subKeys+ROUND_SUBKEYS;
@@ -441,7 +441,7 @@ void ReverseRoundSubkeys(keyInstance *key,BYTE newDir)
         { Xor32(dst,src,i  ); Xor32(dst,src,i+1); Xor32(dst,src,i+2); Xor32(dst,src,i+3); } \
     }
 #else                       /* do it as a function call */
-void Xor256(void *dst,void *src,BYTE b)
+static void Xor256(void *dst,void *src,BYTE b)
     {
     register DWORD  x=b*0x01010101u;    /* replicate byte to all four bytes */
     register DWORD *d=(DWORD *)dst;
@@ -472,7 +472,7 @@ void Xor256(void *dst,void *src,BYTE b)
 *   be generated on-the-fly using f32()
 *
 -****************************************************************************/
-int reKey(keyInstance *key)
+static int reKey(keyInstance *key)
     {
     int     i,j,k64Cnt,keyLen;
     int     subkeyCnt;
@@ -664,7 +664,7 @@ else
 * Notes:    This parses the key bits from keyMaterial.  Zeroes out unused key bits
 *
 -****************************************************************************/
-int makeKey(keyInstance *key, BYTE direction, int keyLen,CONST char *keyMaterial)
+static int makeKey(keyInstance *key, BYTE direction, int keyLen,CONST char *keyMaterial)
     {
     int i;
 
@@ -715,7 +715,7 @@ int makeKey(keyInstance *key, BYTE direction, int keyLen,CONST char *keyMaterial
 *                   else error code (e.g., BAD_CIPHER_MODE)
 *
 -****************************************************************************/
-int cipherInit(cipherInstance *cipher, BYTE mode,CONST char *IV)
+static int cipherInit(cipherInstance *cipher, BYTE mode,CONST char *IV)
     {
     int i;
 #if VALIDATE_PARMS              /* first, sanity check on parameters */
@@ -764,7 +764,7 @@ int cipherInit(cipherInstance *cipher, BYTE mode,CONST char *IV)
 *        sizes can be supported.
 *
 -****************************************************************************/
-int blockEncrypt(cipherInstance *cipher, keyInstance *key,CONST BYTE *input,
+static int blockEncrypt(cipherInstance *cipher, keyInstance *key,CONST BYTE *input,
                 int inputLen, BYTE *outBuffer)
     {
     int   i,n;                      /* loop counters */
@@ -921,7 +921,7 @@ int blockEncrypt(cipherInstance *cipher, keyInstance *key,CONST BYTE *input,
 *        sizes can be supported.
 *
 -****************************************************************************/
-int blockDecrypt(cipherInstance *cipher, keyInstance *key,CONST BYTE *input,
+static int blockDecrypt(cipherInstance *cipher, keyInstance *key,CONST BYTE *input,
                 int inputLen, BYTE *outBuffer)
     {
     int   i,n;                      /* loop counters */
@@ -1064,7 +1064,7 @@ int blockDecrypt(cipherInstance *cipher, keyInstance *key,CONST BYTE *input,
     }
 
 #ifdef GetCodeSize
-DWORD TwofishCodeSize(void)
+static DWORD TwofishCodeSize(void)
     {
     DWORD x= Here(0);
 #ifdef USE_ASM

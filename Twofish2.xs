@@ -53,7 +53,7 @@ new(class, key, mode=MODE_ECB)
           if (mode != MODE_ECB && mode != MODE_CBC && mode != MODE_CFB1)
             croak ("illegal mode: mode must be MODE_ECB, MODE_2 or MODE_CFB1");
 
-          Newz(0, RETVAL, 1, struct cryptstate);
+          Newz (0, RETVAL, 1, struct cryptstate); /* Newz required for defined IV */
           
           if (makeKey (&RETVAL->ki, DIR_ENCRYPT, keysize*8, SvPV_nolen(key)) != TRUE)
             croak ("Crypt::Twofish2: makeKey failed, please report!");

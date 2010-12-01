@@ -122,17 +122,17 @@ typedef struct
     } cipherInstance;
 
 /* Function protoypes */
-int makeKey(keyInstance *key, BYTE direction, int keyLen, char *keyMaterial);
+static int makeKey(keyInstance *key, BYTE direction, int keyLen, char *keyMaterial);
 
-int cipherInit(cipherInstance *cipher, BYTE mode, char *IV);
+static int cipherInit(cipherInstance *cipher, BYTE mode, char *IV);
 
-int blockEncrypt(cipherInstance *cipher, keyInstance *key, BYTE *input,
+static int blockEncrypt(cipherInstance *cipher, keyInstance *key, BYTE *input,
                 int inputLen, BYTE *outBuffer);
 
-int blockDecrypt(cipherInstance *cipher, keyInstance *key, BYTE *input,
+static int blockDecrypt(cipherInstance *cipher, keyInstance *key, BYTE *input,
                 int inputLen, BYTE *outBuffer);
 
-int reKey(keyInstance *key);    /* do key schedule using modified key.keyDwords */
+static int reKey(keyInstance *key);    /* do key schedule using modified key.keyDwords */
 
 /* API to check table usage, for use in ECB_TBL KAT */
 #define     TAB_DISABLE         0
@@ -140,7 +140,7 @@ int reKey(keyInstance *key);    /* do key schedule using modified key.keyDwords 
 #define     TAB_RESET           2
 #define     TAB_QUERY           3
 #define     TAB_MIN_QUERY       50
-int TableOp(int op);
+static int TableOp(int op);
 
 
 #define     CONST               /* helpful C++ syntax sugar, NOP for ANSI C */
@@ -194,7 +194,7 @@ to run the test on the pedagogical code.
 #include <string.h>
 
 #define MAX_BLK_CNT     4       /* max # blocks per call in TestTwofish */
-int TestTwofish(int mode,int keySize) /* keySize must be 128, 192, or 256 */
+static int TestTwofish(int mode,int keySize) /* keySize must be 128, 192, or 256 */
     {                           /* return 0 iff test passes */
     keyInstance    ki;          /* key information, including tables */
     cipherInstance ci;          /* keeps mode (ECB, CBC) and IV */

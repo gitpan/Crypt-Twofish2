@@ -30,12 +30,11 @@ C<Crypt::Twofish2> can work in either ECB or CBC mode itself.
 
 package Crypt::Twofish2;
 
-require DynaLoader;
+use XSLoader;
 
-$VERSION = '1.01';
-@ISA = qw/DynaLoader/;
+$VERSION = '1.02';
 
-bootstrap Crypt::Twofish2 $VERSION;
+XSLoader::load __PACKAGE__, $VERSION;
 
 =item keysize
 

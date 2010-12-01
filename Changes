@@ -1,5 +1,10 @@
 Revision history for Perl extension Crypt::Twofish2
 
+1.02 Wed Dec  1 03:10:32 CET 2010
+	- make all twofish functions static to avoid namespace issues
+          when statically linking perl.
+        - convert to XSLoader.
+
 1.01 Thu Mar  3 18:00:52 CET 2005
 	- change of contact address.
 
